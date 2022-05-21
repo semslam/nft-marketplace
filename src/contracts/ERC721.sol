@@ -22,6 +22,20 @@ mapping(uint256 => address) private _tokenOwner;
 // Mapping from owner to number of owner tokens
 mapping(address => uint256) private _OwnedTokensCount;
 
+
+
+function balanceOf(address _owner) public view returns(uint256){
+    require(_owner != address(0),'Error- owner query for non-exixtent token');
+  return _OwnedTokensCount[_owner];
+}
+
+function ownerOf(uint256 _tokenId) external view returns(address){
+//    require(!_exists(_tokenId), 'ERC721: token already minted');
+    address owner = _tokenOwner[_tokenId];
+     require(owner != address(0), 'Owner query for  non-exixtent token');
+    return owner;
+}
+
 function _exists (uint256 tokenId) internal view returns(bool){
     //setting the address of the nft owner to check the mapping
     //of the addresss from tokenOwner at the tokenId
