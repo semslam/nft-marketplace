@@ -23,12 +23,20 @@ mapping(uint256 => address) private _tokenOwner;
 mapping(address => uint256) private _OwnedTokensCount;
 
 
-
+/// @notice Count all NFTs assigned to an owner
+/// @dev NFTs assigned to the zero address are considered invalid, and this
+///  function throws for queries about the zero address.
+/// @param _owner An address for whom to query the balance
+/// @return The number of NFTs owned by `_owner`, possibly zero
 function balanceOf(address _owner) public view returns(uint256){
     require(_owner != address(0),'Error- owner query for non-exixtent token');
   return _OwnedTokensCount[_owner];
 }
-
+/// @notice Find the owner of an NFT
+/// @dev NFTs assigned to zero address are considered invalid, and queries
+///  about them do throw.
+/// @param _tokenId The identifier for an NFT
+/// @return The address of the owner of the NFT
 function ownerOf(uint256 _tokenId) external view returns(address){
 //    require(!_exists(_tokenId), 'ERC721: token already minted');
     address owner = _tokenOwner[_tokenId];
@@ -44,7 +52,7 @@ function _exists (uint256 tokenId) internal view returns(bool){
     return owner != address(0); 
 }
 
-function _mint(address to, uint256 tokenId) internal {
+function _mint(address to, uint256 tokenId) internal virtual {
     // requires that the address isn't zero
     require(to != address(0), 'ERC721: minting to the zero address');
     //requires that the token does not already exist
